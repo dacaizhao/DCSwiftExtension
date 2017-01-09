@@ -1,9 +1,9 @@
 # DCSwiftExtension & swiftModelFormat 一起使用更配哦
 [swiftModelFormat 一起使用更配哦 😘](https://github.com/dacaizhao/swiftModelFormat) 
-        2017.1.10 修改
-        新增 纯数组入模型
-        新增 replacedKeyFromPropertyName 替换下标
-        到此基本功能完毕 👻👻👻👻👻
+* 2017.1.10 修改
+* 新增 纯数组入模型
+* 新增 replacedKeyFromPropertyName 替换下标
+* 到此基本功能完毕 👻👻👻👻👻
 
 ![](https://github.com/dacaizhao/DCSwiftExtension/blob/master/mark.jpeg?raw=true)
 ####2017 1.9日完成首次 部分功能不全
