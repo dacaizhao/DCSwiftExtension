@@ -5,6 +5,7 @@
         新增 replacedKeyFromPropertyName 替换下标
         到此基本功能完毕 👻👻👻👻👻
 
+![](https://github.com/dacaizhao/DCSwiftExtension/blob/master/mark.jpeg?raw=true)
 ####2017 1.9日完成首次 部分功能不全
 * 1:支持父类属性继承  
 * 2:最简单的字典 必然支持
@@ -14,7 +15,7 @@
 * 6:是不是担心nil崩溃 这个不支持怎么能行
 * 7:效率 老夫写代码_上手就是搞起来 爱测你就测 我没测 我就不测 爱测不测 👻👻👻👻👻
 
-![](https://github.com/dacaizhao/DCSwiftExtension/blob/master/mark.png?raw=true)
+
 
 #swiftModelFormat演示
 ![](https://github.com/dacaizhao/swiftModelFormat/blob/master/demo.gif?raw=true)
