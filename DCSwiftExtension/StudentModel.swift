@@ -12,8 +12,10 @@ class StudentModel: PersonModel {
 
     var stuNo:Int = 0
     var stuClassName:String = ""
-    
-    var classModel:ClassModel = ClassModel()
-    
+    var teacher:NSArray = []
+    var classModel = ClassModel()
+    override func replacedKeyFromPropertyName() ->[String:String]{
+        return ["teacher":"teacherZhaoDaCai"]
+    }
     
 }

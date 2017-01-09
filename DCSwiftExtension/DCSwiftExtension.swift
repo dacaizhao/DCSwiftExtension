@@ -55,19 +55,23 @@ extension NSObject{
             return
         }
         
+        
         for property in properties!{
             var value = keyValues[property.key]
             if property.dcPropertyType.isCustomClass {
-                
                 let subClass = property.dcPropertyType.typeClass?.dcObjectWithKeyValues(value as! NSDictionary)
                 self.setValue(subClass, forKey: property.dcPropertyName as String)
             }else {
-                if property.dcPropertyType.isArray && value is NSArray{
-                    let type = dcGetBundleName() + "." + dcFristCapitalized(str: property.key as String)
-                    
-                    let temp = NSClassFromString(type)?.dcObjectArrayWithKeyValuesArray(value as! NSArray)
-                    
-                    self.setValue(temp, forKey: property.dcPropertyName as String)
+                
+                if property.dcPropertyType.isArray {
+                    let tempValue  = value as! [Any]
+                    if !dcIsDict(things: tempValue) {
+                        self.setValue(tempValue, forKey: property.dcPropertyName as String)
+                    }else {
+                        let type = dcGetBundleName() + "." + dcFristCapitalized(str: property.key as String)
+                        let temp = NSClassFromString(type)?.dcObjectArrayWithKeyValuesArray(value as! NSArray)
+                        self.setValue(temp, forKey: property.dcPropertyName as String)
+                    }
                 }else{
                     if value == nil  {
                         if property.dcPropertyType.code == DCSwiftExtensionType.NSNumber.rawValue {
@@ -82,6 +86,7 @@ extension NSObject{
                 
             }
         }
+        
     }
     
     //获取类属性
@@ -101,9 +106,13 @@ extension NSObject{
         
         var outCount:UInt32 = 0
         let properties = class_copyPropertyList(typeClass,&outCount)
+        let replacedDic = self.init().replacedKeyFromPropertyName()
         for i in 0 ..< Int(outCount) {
             //let name = String(utf8String:  property_getName(properties?[i]))
             let property = DCProperty((properties?[i])!)
+            if let key = replacedDic[property.dcPropertyName as String] {
+                property.key = key as NSString
+            }
             if property.dcPropertyType.isArray {
                 property.dcPropertyType.arrayClass = NSClassFromString("NSArray")
             }
@@ -111,7 +120,8 @@ extension NSObject{
         }
         return propertiesArray
     }
-    func objectClassInArray() -> [String:String]{
+    
+    func replacedKeyFromPropertyName() ->[String:String]{
         return ["":""]
     }
     
@@ -120,6 +130,7 @@ extension NSObject{
         var dcProperty:objc_property_t
         var dcPropertyType:DCType!
         var key:NSString
+        
         
         init(_ dcProperty:objc_property_t){
             self.dcProperty = dcProperty
@@ -177,7 +188,7 @@ extension NSObject{
 }
 
 //获取工程的名字
-func dcGetBundleName() -> String{
+fileprivate func dcGetBundleName() -> String{
     var bundlePath = Bundle.main.bundlePath
     bundlePath = bundlePath.components(separatedBy: "/").last!
     bundlePath = bundlePath.components(separatedBy: ".").first!
@@ -185,13 +196,13 @@ func dcGetBundleName() -> String{
 }
 
 //通过类名返回一个AnyClass
-func dcGetClassWitnClassName(_ name:String) ->AnyClass?{
+fileprivate func dcGetClassWitnClassName(_ name:String) ->AnyClass?{
     let type = dcGetBundleName() + "." + name
     return NSClassFromString(type)
 }
 
 //移除所有数字
-func dcRemoveNumber(str:String) -> String {
+fileprivate func dcRemoveNumber(str:String) -> String {
     //在去掉剩下的数字
     var noNumber:String = ""
     for char in (str as String).characters{
@@ -202,7 +213,8 @@ func dcRemoveNumber(str:String) -> String {
     return noNumber
 }
 
-func dcFristCapitalized(str:String) -> String {
+//首字母大写
+fileprivate func dcFristCapitalized(str:String) -> String {
     var noNumber:String = ""
     var i = 0
     for char in (str as String).characters{
@@ -216,3 +228,21 @@ func dcFristCapitalized(str:String) -> String {
     }
     return noNumber
 }
+
+//判断是字典
+fileprivate func dcIsDict (things:[Any]) -> Bool {
+    for item in things.enumerated(){
+       if item.offset == 0 {
+            switch item.element {
+            case let isDict as NSDictionary:
+                let _ = isDict
+                return true
+            default:
+                return false
+            }
+        }
+    }
+    return false
+}
+
+
