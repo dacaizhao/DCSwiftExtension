@@ -11,6 +11,7 @@ import Foundation
 enum DCSwiftExtensionType : NSString {
     case Int = "Int"
     case NSNumber = "NSNumber"
+  
     case NSString = "NSString"
     case NSArray = "NSArray"
     case customClass = "CustomClass"
@@ -58,11 +59,11 @@ extension NSObject{
         
         for property in properties!{
             var value = keyValues[property.key]
+            print(value)
             if property.dcPropertyType.isCustomClass {
                 let subClass = property.dcPropertyType.typeClass?.dcObjectWithKeyValues(value as! NSDictionary)
                 self.setValue(subClass, forKey: property.dcPropertyName as String)
             }else {
-                
                 if property.dcPropertyType.isArray {
                     let tempValue  = value as! [Any]
                     if !dcIsDict(things: tempValue) {
@@ -141,7 +142,9 @@ extension NSObject{
                 code = dcRemoveNumber(str: code as String) as NSString
                 let arr = code.components(separatedBy: ",")
                 let firstStr = arr[0]
-                if firstStr == "Tq" {
+                
+                print(firstStr)
+                if firstStr == "Tq" || firstStr == "TB"{
                     code = DCSwiftExtensionType.NSNumber.rawValue
                 }else if (firstStr == "T@\"NSNumber\"") {
                     code = DCSwiftExtensionType.NSNumber.rawValue

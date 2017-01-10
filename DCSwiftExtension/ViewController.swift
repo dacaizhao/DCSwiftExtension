@@ -45,15 +45,22 @@ class ViewController: UIViewController {
         //        let studentModel4:StudentModel = StudentModel.objectWithKeyValues(dict4 as NSDictionary) as! PersonModel as! StudentModel
         //        print("String姓名:\(studentModel4.name)","Int年龄:\(studentModel4.age)","NsNumber身高:\(studentModel4.height)"
         //            ,"学号:\(studentModel4.stuNo)","班级:\(studentModel4.stuClassName)","模型班级:\(studentModel4.classModel.className)","模型班级Id:\(studentModel4.classModel.classID)")
-        
-        
+//        
+//        let str:String = "[\"stuNo\":\"ss\",\"stuClassName\":\"一年级3班\"]"
+//        print(str)
+//        let a:NSDictionary = str.toAny as! NSDictionary
+//        print(a)
+//        
+//        
+//        print(str)
         
         
         //1:属性有模型 2:模型里有数组 3:StudentModel: PersonModel 可拿父属性
-        let dict5 = ["stuNo":101,"stuClassName":"一年级3班","teacherZhaoDaCai":["zhao","qian","sun","li"],
+        
+        let dict5 = ["stuNo":1,"stuClassName":"一年级3班","dacaiBool":false,"teacherZhaoDaCai":["zhao","qian","sun","li"],
                      "classModel":["classID":10,"className":"一年级5班",
                                    "personModel":[
-                                                 ["age":11,"height":174,"name":"zhaodacai1"],
+                                                 ["age":nil,"height":174,"name":nil],
                                                  ["age":12,"height":174,"name":"zhaodacai2"],
                                                  ["age":13,"height":174,"name":"zhaodacai3"],
                                                  ["age":13,"height":174,"name":"zhaodacai4"],
@@ -62,15 +69,37 @@ class ViewController: UIViewController {
             ] as [String : Any]
         
         let studentModel5:StudentModel = StudentModel.dcObjectWithKeyValues(dict5 as NSDictionary)  as! StudentModel
-        print(studentModel5.teacher)
-        print("String姓名:\(studentModel5.name)","Int年龄:\(studentModel5.age)","NsNumber身高:\(studentModel5.height)"
-            ,"学号:\(studentModel5.stuNo)","班级:\(studentModel5.stuClassName)","模型班级:\(studentModel5.classModel.className)","模型班级Id:\(studentModel5.classModel.classID)")
-        print(studentModel5.classModel.personModel.count)
-        for model in studentModel5.classModel.personModel as Array {
-            print("String姓名:\(model.name)","Int年龄:\(model.age)","NsNumber身高:\(model.height)")
+        
+        if studentModel5.dacaiBool {
+        print("aaa")
+        }else {
+        print("zzzz")
         }
+//        print(studentModel5.teacher)
+//        print("String姓名:\(studentModel5.name)","Int年龄:\(studentModel5.age)","NsNumber身高:\(studentModel5.height)"
+//            ,"学号:\(studentModel5.stuNo)","班级:\(studentModel5.stuClassName)","模型班级:\(studentModel5.classModel.className)","模型班级Id:\(studentModel5.classModel.classID)")
+//        print(studentModel5.classModel.personModel.count)
+//        for model in studentModel5.classModel.personModel as Array {
+//            print("String姓名:\(model.name)","Int年龄:\(model.age)","NsNumber身高:\(model.height)")
+//        }
     
         
+    }
+}
+
+
+extension String  {
+    //字符串转任何类型
+    var toAny:Any! {
+        guard let jsonData = self.data(using: .utf8) else {
+            return nil
+        }
+        do {
+            let any = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers)
+            return any
+        } catch  {
+            return nil
+        }
     }
 }
 

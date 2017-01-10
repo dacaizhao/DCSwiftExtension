@@ -8,12 +8,13 @@
 
 import UIKit
 
-class StudentModel: PersonModel {
+class StudentModel: NSObject {
 
     var stuNo:Int = 0
     var stuClassName:String = ""
-    var teacher:NSArray = []
-    var classModel = ClassModel()
+    var dacaiBool:Bool = false
+    //var teacher:NSArray = []
+    //var classModel = ClassModel()
     override func replacedKeyFromPropertyName() ->[String:String]{
         return ["teacher":"teacherZhaoDaCai"]
     }
